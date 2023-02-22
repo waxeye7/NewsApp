@@ -2,14 +2,16 @@
   margin:0;
   box-sizing: border-box;
   font-family: "Ledger";
+  text-decoration:none;
 }
 .absolute { position:absolute; }
 .relative { position:relative; }
 .flex { display:flex; }
+.flex-col { flex-direction:column; }
 .space-between { justify-content:space-between; }
 .justify-center { justify-content:center; }
 .align-center { align-items:center; }
-.blurred { filter: brightness(80%) blur(1px); }
+.blurred { filter: brightness(50%) blur(1px); }
 @font-face {
   font-family: Ledger;
   src: url(./Ledger-Regular.ttf);

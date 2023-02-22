@@ -4,15 +4,16 @@
 
 <template>
     <div>
-        <div class="flex justify-center align-center small-margin-top">
+        <div class="flex justify-center align-center small-padding-top">
         
             <div class="search-bar">
                 <img src="../assets/search.svg">
                 
-                <input class="input-box" id="search" type="text" placeholder="Search">
+                <input v-model="searchValue" class="input-box" id="search" type="text" placeholder="Search">
             </div>
-            <div class="theme">
-                <img src="../assets/moon.png">
+            <div @click="lightTheme=!lightTheme; sendThemeStatus(lightTheme);" class="theme">
+                <img v-if="lightTheme" src="../assets/moon.png">
+                <img v-if="!lightTheme" src="../assets/sun.png">
             </div>
         </div>
 
@@ -43,6 +44,8 @@
 export default {
     data() {
         return {
+            lightTheme:true,
+            searchValue:"",
             current_search_type:0,
             selected_search_types:[
                 "Top Stories",
@@ -59,14 +62,17 @@ export default {
         }
     },
     methods:{
-        makeAllOpacityLow() {
-
+        sendThemeStatus(bool) {
+            this.$emit('changeThemeStatus', bool)
         }
     }
 }
 </script>
 
 <style scoped>
+.small-padding-top {
+    padding-top:16px;
+}
 .small-margin-bottom {
     margin-bottom:16px;
 }
@@ -116,6 +122,7 @@ export default {
     display:block;
 } */
 .theme {
+    cursor:pointer;
     margin-left:14px;
 }
 .theme img {
@@ -126,7 +133,7 @@ export default {
     font-size:22px;
     margin-left:8px;
     margin-right:8px;
-    opacity:0.4;
+    opacity:0.5;
 }
 .oval-guy {
     text-align: center;
@@ -143,6 +150,7 @@ export default {
 }
 .selectedSearchType {
     opacity:1 !important;
+    z-index: 2;
 }
 .barUnderWord {
     position:absolute;
@@ -152,7 +160,7 @@ export default {
     background-color:#596FE5;
     bottom:0;
     left:0;
-    z-index:-1;
+    z-index:3;
 }
 .shouldIDisplay {
     display:block !important;

@@ -9,6 +9,7 @@
 .space-between { justify-content:space-between; }
 .justify-center { justify-content:center; }
 .align-center { align-items:center; }
+.blurred { filter: brightness(80%) blur(1px); }
 @font-face {
   font-family: Ledger;
   src: url(./Ledger-Regular.ttf);

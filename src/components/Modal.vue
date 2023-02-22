@@ -9,11 +9,15 @@ defineProps({
         required: true
     },
     articleImage: {
-        type:URL,
+        type:String,
         required:true
     },
     articleLink: {
-        type:URL,
+        type:String,
+        required:true
+    },
+    articleAuthor: {
+        type:String,
         required:true
     }
 });
@@ -21,12 +25,28 @@ defineProps({
 
 <template>
     <div class="modal">
-        <div class="img-wrapper">
-            <img :src="articleImage">
+        <div class="used-area">
+
+                <div class="img-wrapper relative">
+                    <img :src="articleImage">
+
+                    <div class="title">
+                        {{ articleTitle }}
+                    </div>
+                </div>
+
+
+
+            <div class="content">
+                {{ articleContent }}
+                <span class="article-link">
+                    <a :href="articleLink">{{ articleAuthor }}</a>
+                </span>
+            </div>
+
+            
         </div>
-        {{ articleTitle }}
-        {{ articleContent }}
-        {{ articleLink }}
+
     </div>
 
 </template>
@@ -34,12 +54,33 @@ defineProps({
 <script>
 export default {
     data() {
+        return {
+
+        }
 
     },
 }
 </script>
 
 <style scoped>
+.title {
+    position:absolute;
+    bottom:5px;
+    left:0;
+    right:0;
+    color:white;
+    background-color:rgba(0, 0, 0, 0.521);
+    font-size:18px;
+    padding-left:10px;
+    padding-right:10px;
+}
+.content {
+    padding-left:10px;
+    padding-right:10px;
+}
+.used-area {
+    background-color:rgb(245, 245, 245);
+}
 .modal {
     position:fixed;
     top:0;
@@ -47,10 +88,11 @@ export default {
     left:0;
     right:0;
     height:100%;
+    z-index: 2;
 }
 .img-wrapper {
     max-width:100%;
-    max-height:400px;
+    max-height:300px;
 }
 .img-wrapper img {
     height:100%;

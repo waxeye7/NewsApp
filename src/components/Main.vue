@@ -4,19 +4,27 @@ import Article from "./Article.vue";
 
 <template>
 
+<div>
 
-<h1 v-if="!articles.length">Loading...</h1>
-<div v-for="(article,i) in articles" :key="i"> <Article :articleObject="article" /> </div>
+  <h1 v-if="!articles.length">Loading...</h1>
+  <div v-for="(article,i) in articles" :key="i"> <div> <Article :class="{'blurred': modalStatus.active && i !== modalStatus.index}"
+  @updateModalStatus="updateModalStatus"  :articleObject="article" :index="i"  /> </div> </div>
+  {{ modalStatus }}
+</div>
 
 </template>
 
 <script>
 export default {
     data() {
-    return {
-      articles:[],
-      lightMode:true,
-    }
+      return {
+        modalStatus:{active:false, index:false},
+        articles:[],
+        lightMode:true,
+      }
+  },
+  computed: {
+
   },
   methods: {
     async fetchArticles() {
@@ -24,6 +32,10 @@ export default {
       const data = await response.json();
       this.articles = data.articles;
       console.log(this.articles);
+    },
+    updateModalStatus(status, index) {
+      this.modalStatus = {active:status, index:index};
+      console.log(this.modalStatus)
     }
   },
   created() {

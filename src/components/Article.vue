@@ -5,6 +5,10 @@ defineProps({
     articleObject: {
     type: Object,
     required: true
+  },
+  index: {
+    type: Number,
+    required: true
   }
 });
 </script>
@@ -13,25 +17,30 @@ defineProps({
 
 <template>
 
-    <Modal v-if="showModal" :article-title="articleObject.title" :article-content="articleObject.content" :article-image="articleObject.urlToImage" :article-link="articleObject.url" />
+    <div>
+        <Modal v-if="showModal" :article-title="articleObject.title" 
+        :article-content="articleObject.content" :article-image="articleObject.urlToImage" 
+        :article-link="articleObject.url" :article-author="articleObject.source.name" 
+        @click="showModal = !showModal; sendModalStatus(false, index);" />
 
-    <div @click="showModal = !showModal;" class="container">
+        <div @click="showModal = !showModal; sendModalStatus(true, index);" :class="{'blurred':showModal}" class="container">
 
-        <div class="flex">
+            <div class="flex">
 
-            <div class="img-wrapper">
-                <img :src="articleObject.urlToImage">
-            </div>
+                <div class="img-wrapper">
+                    <img :src="articleObject.urlToImage">
+                </div>
 
 
-            <div class="text">
-                <div class="title">{{articleObject.title}}</div>
-                &nbsp;
-                <div class="description">{{articleObject.description.split(" ").slice(0,40).join(" ")}}</div>
+                <div class="text">
+                    <div class="title">{{articleObject.title}}</div>
+                    &nbsp;
+                    <div class="description">{{articleObject.description.split(" ").slice(0,40).join(" ")}}</div>
+                </div>
+
             </div>
 
         </div>
-
     </div>
     
 </template>
@@ -43,13 +52,16 @@ export default {
             showModal:false
         }
     },
+    methods: {
+        sendModalStatus(status, index) {
+            this.$emit('updateModalStatus', status,  index)
+        }
+    }
 }
 </script>
 
 <style scoped>
-.blurred {
-    filter: blur(4px);
-}
+
 .img-wrapper {
     min-height:84px;
     max-height:140px;

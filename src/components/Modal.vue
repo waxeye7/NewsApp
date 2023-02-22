@@ -25,22 +25,22 @@ defineProps({
 
 <template>
     <div class="modal">
-        <div class="used-area">
+        <div class="used-area flex flex-col">
 
-                <div class="img-wrapper relative">
-                    <img :src="articleImage">
+            <div class="img-wrapper relative">
+                <img :src="articleImage">
 
-                    <div class="title">
-                        {{ articleTitle }}
-                    </div>
+                <div class="title">
+                    {{ articleTitle }}
                 </div>
+            </div>
 
 
 
             <div class="content">
-                {{ articleContent }}
+                {{fixed_content}}
                 <span class="article-link">
-                    <a :href="articleLink">{{ articleAuthor }}</a>
+                    <a :href="articleLink" target="_blank">{{ articleAuthor }}</a>
                 </span>
             </div>
 
@@ -59,13 +59,22 @@ export default {
         }
 
     },
+    computed: {
+        fixed_content() {
+            let firstBracketIndex = this.articleContent.lastIndexOf("[");
+            let secondBracketIndex = this.articleContent.lastIndexOf("]");
+            let firstPartOfContent = this.articleContent.substring(0, firstBracketIndex);
+            let secondPartOfContent = this.articleContent.substring(secondBracketIndex, this.articleContent.length - 1)
+            return firstPartOfContent + secondPartOfContent;
+        }
+    }
 }
 </script>
 
 <style scoped>
 .title {
     position:absolute;
-    bottom:5px;
+    bottom:3px;
     left:0;
     right:0;
     color:white;
@@ -73,10 +82,13 @@ export default {
     font-size:18px;
     padding-left:10px;
     padding-right:10px;
+    padding-bottom:3px;
+    padding-top:5px;
 }
 .content {
-    padding-left:10px;
-    padding-right:10px;
+    padding-left:20px;
+    padding-right:20px;
+    padding-bottom:6px;
 }
 .used-area {
     background-color:rgb(245, 245, 245);
@@ -92,11 +104,12 @@ export default {
 }
 .img-wrapper {
     max-width:100%;
-    max-height:300px;
+    /* max-height:300px; */
 }
 .img-wrapper img {
     height:100%;
     width:100%;
+    object-fit: cover;
 }
 
 </style>

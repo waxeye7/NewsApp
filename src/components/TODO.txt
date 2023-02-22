@@ -1,0 +1,1 @@
+add is there any modal popped bool on a higher level to blur the background.

@@ -9,10 +9,13 @@ defineProps({
 });
 </script>
 
-<template>
-    <Modal :article-title="articleObject.title" />
+// :class="{blurred:showModal}"
 
-    <div class="container">
+<template>
+
+    <Modal v-if="showModal" :article-title="articleObject.title" :article-content="articleObject.content" :article-image="articleObject.urlToImage" :article-link="articleObject.url" />
+
+    <div @click="showModal = !showModal;" class="container">
 
         <div class="flex">
 
@@ -36,12 +39,17 @@ defineProps({
 <script>
 export default {
     data() {
-
+        return {
+            showModal:false
+        }
     },
 }
 </script>
 
 <style scoped>
+.blurred {
+    filter: blur(4px);
+}
 .img-wrapper {
     min-height:84px;
     max-height:140px;

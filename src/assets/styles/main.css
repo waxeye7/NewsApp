@@ -14,5 +14,5 @@
 .blurred { filter: brightness(50%) blur(1px); }
 @font-face {
   font-family: Ledger;
-  src: url(./Ledger-Regular.ttf);
+  src: url(../fonts/Ledger-Regular.ttf);
 }

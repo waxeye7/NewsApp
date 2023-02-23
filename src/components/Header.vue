@@ -1,28 +1,31 @@
 <script setup>
-
+import randomWords from "random-words";
 </script>
 
 <template>
     <div>
         <div class="flex justify-center align-center small-padding-top">
         
-            <div class="search-bar">
-                <img src="../assets/search.svg">
+            <div class="search-bar relative">
+
+                <img v-if="lightTheme" src="../assets/images/search.png">
+                <img v-if="!lightTheme" src="../assets/images/search_white.png">
                 
                 <input v-model="searchValue" class="input-box" id="search" type="text" placeholder="Search">
+
+                <div @click="sendSearchQuery(searchValue)" class="go absolute">Go</div>
             </div>
             <div @click="lightTheme=!lightTheme; sendThemeStatus(lightTheme);" class="theme">
-                <img v-if="lightTheme" src="../assets/moon.png">
-                <img v-if="!lightTheme" src="../assets/sun.png">
+                <img v-if="lightTheme" src="../assets/images/moon.png">
+                <img v-if="!lightTheme" src="../assets/images/sun.png">
             </div>
         </div>
 
 
         <div class="flex align-center justify-center top-stories-and-random very-small-margin-top">
             <div v-for="(search,i) in selected_search_types" :key="i">
-
-                <h1 @click="current_search_type = i" :class="{selectedSearchType: current_search_type == i}" class="relative" >
-                    {{ search }}<div :class="{shouldIDisplay: current_search_type == i}" class="barUnderWord"></div>
+                <h1 @click="current_search_type_index = i; if(current_search_type_index == 0){sendSearchQuery('https://newsapi.org/v2/top-headlines?country=us&apiKey=8ff54b2755304194bea97b50b3961980')}; if(current_search_type_index == 1){searchValue=randomWords(1); sendSearchQuery(searchValue);}" :class="{selectedSearchType: current_search_type_index == i}" class="relative" >
+                    {{ search }}<div :class="{shouldIDisplay: current_search_type_index == i}" class="barUnderWord"></div>
                 </h1>
 
                 
@@ -31,7 +34,7 @@
 
         <div class="flex align-center justify-center very-small-margin-top small-margin-bottom">
             <div v-for="(topic,i) in popular_topics" :key="i" >
-                <div @click="oval => oval.target.classList.toggle('selectedOval')" :class="{ selectedOval: i==0 }" class="oval-guy"> {{ topic }} </div>
+                <div @click="current_popular_topic = i; this.searchValue=topic; sendSearchQuery('https://newsapi.org/v2/everything?q=' + topic + '&apiKey=8618ec28db794fa992149cbb4700b005');" :class="{ selectedOval: i==current_popular_topic }" class="oval-guy"> {{ topic }} </div>
             </div>
         </div>
 
@@ -46,13 +49,12 @@ export default {
         return {
             lightTheme:true,
             searchValue:"",
-            current_search_type:0,
+            current_search_type_index:0,
             selected_search_types:[
                 "Top Stories",
-                "Recent",
                 "Random",
             ],
-
+            current_popular_topic:0,
             popular_topics:[
             "All",
             "Finance",
@@ -64,7 +66,15 @@ export default {
     methods:{
         sendThemeStatus(bool) {
             this.$emit('changeThemeStatus', bool)
+        },
+        sendSearchQuery(value) {
+            this.$emit('changeSearchValue', value)
         }
+    },
+    created() {
+
+        this.sendSearchQuery("https://newsapi.org/v2/top-headlines?country=us&apiKey=8ff54b2755304194bea97b50b3961980");
+
     }
 }
 </script>
@@ -82,6 +92,18 @@ export default {
     position:relative;
     width:70%;
 }
+.go {
+    transform: translate(0, -50%);
+    top:50%;
+    right:0;
+    background-color:black;
+    color:white;
+    border-radius:0 4px 4px 0;
+    padding:9px;
+    cursor: pointer;
+    height:38px;
+    font-size:16px;
+}
 .search-bar img {
     width:30px;
     height:30px;
@@ -92,6 +114,7 @@ export default {
 
 }
 .input-box {
+    font-size: 20px;
     height:38px;
     border:none;
     width:100%;
@@ -117,10 +140,6 @@ export default {
   top:-20%;
   font-size:14px;
 }
-
-/* .input-box:blank ~ .text-over-input {
-    display:block;
-} */
 .theme {
     cursor:pointer;
     margin-left:14px;
@@ -145,8 +164,8 @@ export default {
     border-radius:24px;
 }
 .selectedOval {
-    background-color:#596FE5;
-    color:white;
+    background-color:#596FE5 !important;
+    color:white !important;
 }
 .selectedSearchType {
     opacity:1 !important;

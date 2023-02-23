@@ -1,12 +1,13 @@
 <script setup>
+import randomWords from "random-words";
 import Header from "./components/Header.vue";
 import Main from "./components/Main.vue";
 </script>
 
 <template>
 <div :class="{darkTheme:!lightTheme}">
-  <Header @changeThemeStatus="changeThemeStatus" />
-  <Main />
+  <Header @changeThemeStatus="changeThemeStatus" @changeSearchValue="changeSearchValue" />
+  <Main :searchValue="searchValue" />
 </div>
 
 
@@ -17,6 +18,7 @@ import Main from "./components/Main.vue";
 export default {
   data() {
     return {
+      searchValue:"",
       lightTheme:true,
     }
   },
@@ -28,6 +30,9 @@ export default {
       else {
         this.lightTheme = false;
       }
+    },
+    changeSearchValue(value) {
+      this.searchValue = value;
     }
   },
   created() {
@@ -42,6 +47,17 @@ export default {
   background-color:rgb(0, 0, 0);
   color:white;
 }
+.darkTheme .go {
+  background-color: white;
+  color:black;
+}
+.darkTheme .input-box {
+  background:rgb(80, 80, 80) !important;
+  color:white;
+}
+.darkTheme ::placeholder {
+ color: white;
+}
 .darkTheme .container {
   color:#ECECEC;
   background-color:rgb(58, 58, 58);
@@ -54,6 +70,11 @@ export default {
   color:white;
 }
 .darkTheme .modal .title {
-  background-color:rgba(0, 0, 0, 0.75);
+  background-color:rgba(0, 0, 0, 0.8);
+  color:white;
+}
+.darkTheme .oval-guy {
+  color:white;
+  background-color:rgb(81, 81, 81);
 }
 </style>

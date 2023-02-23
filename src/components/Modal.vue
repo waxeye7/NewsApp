@@ -77,9 +77,10 @@ export default {
     bottom:3px;
     left:0;
     right:0;
-    color:white;
-    background-color:rgba(0, 0, 0, 0.521);
-    font-size:18px;
+    color:black;
+    background-color:rgba(255,255, 255, 0.8);
+    text-align: center;
+    font-size:26px;
     padding-left:10px;
     padding-right:10px;
     padding-bottom:3px;

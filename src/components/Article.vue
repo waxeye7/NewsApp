@@ -35,7 +35,7 @@ defineProps({
                 <div class="text">
                     <div class="title">{{articleObject.title}}</div>
                     &nbsp;
-                    <div class="description">{{articleObject.description.split(" ").slice(0,40).join(" ")}}</div>
+                    <div v-if="articleObject.description" class="description">{{articleObject.description.split(" ").slice(0,40).join(" ")}}</div>
                 </div>
 
             </div>
@@ -91,11 +91,11 @@ export default {
 }
 .title {
     display: inline;
-    font-size:15px;
+    font-size:18px;
     margin-bottom:0px;
 }
 .description {
     display:inline;
-    font-size:12px;
+    font-size:14px;
 }
 </style>
